@@ -33,7 +33,10 @@ const app = express();
 const httpServer = createServer(app);
 
 // @desc    CORS configuration for allowed origins
-const allowedOrigins = "*";
+const allowedOrigins = [
+    "http://localhost:5173",
+    "https://event-sphere-phi.vercel.app"
+];
 
 // Configure express middleware first
 app.use(express.json({ limit: '50mb' }));
