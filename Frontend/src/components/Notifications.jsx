@@ -1,7 +1,9 @@
+import { io } from 'socket.io-client';
 import { API_BASE_URL } from '../config/config';
 
 // Configure Socket.IO client
 const socket = io(API_BASE_URL, {
+    path: '/socket.io', // Make sure this matches your backend socket.io path
     withCredentials: true,
     transports: ['websocket', 'polling'],
     autoConnect: true,

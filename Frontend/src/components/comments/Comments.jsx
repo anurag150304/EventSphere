@@ -30,6 +30,7 @@ import { API_BASE_URL } from '../../config/config';
 
 // Update Socket.IO configuration
 const socket = io(API_BASE_URL, {
+    path: '/socket.io',
     withCredentials: true,
     transports: ['websocket', 'polling'],
     autoConnect: true,
