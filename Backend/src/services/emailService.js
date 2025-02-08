@@ -23,9 +23,14 @@ const generateUnsubscribeToken = async (userId) => {
     return token;
 };
 
+// Update the FRONTEND_URL in email templates
+const FRONTEND_URL = process.env.NODE_ENV === 'production'
+    ? 'https://event-sphere-phi.vercel.app'
+    : 'http://localhost:5173';
+
 // Get unsubscribe link
 const getUnsubscribeLink = (token) => {
-    return `${process.env.FRONTEND_URL}/notifications/unsubscribe/${token}`;
+    return `${FRONTEND_URL}/notifications/unsubscribe/${token}`;
 };
 
 // Common email footer
@@ -61,7 +66,7 @@ export const sendCommentNotification = async (event, comment, recipientEmail) =>
                     ${comment.content}
                 </div>
                 <p>
-                    <a href="${process.env.FRONTEND_URL}/events/${event._id}" 
+                    <a href="${FRONTEND_URL}/events/${event._id}" 
                        style="background-color: #007bff; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block;">
                         View Comment
                     </a>
@@ -96,7 +101,7 @@ export const sendReplyNotification = async (event, reply, parentComment, recipie
                     ${reply.content}
                 </div>
                 <p>
-                    <a href="${process.env.FRONTEND_URL}/events/${event._id}" 
+                    <a href="${FRONTEND_URL}/events/${event._id}" 
                        style="background-color: #007bff; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block;">
                         View Reply
                     </a>
@@ -129,7 +134,7 @@ export const sendEventUpdateNotification = async (event, changes, recipientId) =
                     `).join('')}
                 </div>
                 <p>
-                    <a href="${process.env.FRONTEND_URL}/events/${event._id}" 
+                    <a href="${FRONTEND_URL}/events/${event._id}" 
                        style="background-color: #007bff; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block;">
                         View Event
                     </a>
@@ -162,7 +167,7 @@ export const sendEventReminder = async (event, recipientId) => {
                     <p><strong>Location:</strong> ${event.location.address}, ${event.location.city}</p>
                 </div>
                 <p>
-                    <a href="${process.env.FRONTEND_URL}/events/${event._id}" 
+                    <a href="${FRONTEND_URL}/events/${event._id}" 
                        style="background-color: #007bff; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block;">
                         View Event Details
                     </a>
@@ -193,7 +198,7 @@ export const sendRSVPUpdateNotification = async (event, user, status) => {
                     <p>Current attendee count: ${event.attendees.filter(a => a.status === 'confirmed').length}/${event.capacity}</p>
                 </div>
                 <p>
-                    <a href="${process.env.FRONTEND_URL}/events/${event._id}" 
+                    <a href="${FRONTEND_URL}/events/${event._id}" 
                        style="background-color: #007bff; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block;">
                         View Attendee List
                     </a>

@@ -32,10 +32,16 @@ dotenv.config();
 const app = express();
 const httpServer = createServer(app);
 
-// Socket.io setup with proper CORS configuration
+// Update allowed origins to include both development and production URLs
+const allowedOrigins = [
+    "http://localhost:5173",
+    "https://event-sphere-phi.vercel.app"
+];
+
+// Socket.io setup with updated CORS configuration
 const io = new Server(httpServer, {
     cors: {
-        origin: ["http://localhost:5173", "http://127.0.0.1:5173"],
+        origin: allowedOrigins,
         methods: ["GET", "POST", "PUT", "DELETE"],
         allowedHeaders: ["Content-Type", "Authorization"],
         credentials: true
@@ -43,9 +49,9 @@ const io = new Server(httpServer, {
     transports: ['websocket', 'polling']
 });
 
-// Express CORS middleware
+// Express CORS middleware with updated configuration
 app.use(cors({
-    origin: ["http://localhost:5173", "http://127.0.0.1:5173"],
+    origin: allowedOrigins,
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true
