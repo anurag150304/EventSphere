@@ -1,4 +1,4 @@
-# Event Management Platform - Developer Documentation
+# EventSphere - An Event Management Platform
 
 ## Overview
 
