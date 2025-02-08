@@ -12,6 +12,7 @@ import { toast } from 'react-hot-toast';
 
 const categories = ['conference', 'workshop', 'social', 'sports', 'other'];
 
+// @desc    Form component for creating and editing events
 export default function EventForm({ onSubmit, initialData }) {
     const [formData, setFormData] = useState(initialData || {
         name: '',
@@ -30,6 +31,7 @@ export default function EventForm({ onSubmit, initialData }) {
     const [uploading, setUploading] = useState(false);
     const [imagePreview, setImagePreview] = useState(initialData?.image || null);
 
+    // @desc    Handle form field changes
     const handleChange = (e) => {
         const { name, value } = e.target;
         if (name.includes('.')) {
@@ -49,6 +51,7 @@ export default function EventForm({ onSubmit, initialData }) {
         }
     };
 
+    // @desc    Handle image upload and validation
     const handleImageChange = async (e) => {
         const file = e.target.files[0];
         if (file) {

@@ -11,11 +11,12 @@ const initialState = {
     }
 };
 
+// @desc    Redux slice for managing notifications state
 const notificationSlice = createSlice({
     name: 'notifications',
     initialState,
     reducers: {
-        // Fetch notifications
+        // @desc    Start notifications fetch
         fetchNotificationsStart: (state) => {
             state.loading = true;
             state.error = null;

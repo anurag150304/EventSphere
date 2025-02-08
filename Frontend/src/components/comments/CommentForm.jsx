@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
+// @desc    Reusable form component for comments and replies
 export default function CommentForm({
     onSubmit,
     initialValue = '',
@@ -13,6 +14,7 @@ export default function CommentForm({
     const [content, setContent] = useState(initialValue);
     const { isAuthenticated } = useSelector((state) => state.auth);
 
+    // @desc    Handle form submission and validation
     const handleSubmit = (e) => {
         e.preventDefault();
         if (content.trim()) {

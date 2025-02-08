@@ -6,6 +6,7 @@ import { eventsAPI } from '../../services/api';
 
 const categories = ['conference', 'workshop', 'social', 'sports', 'other'];
 
+// @desc    Page component for editing existing events
 export default function EditEvent() {
     const { id } = useParams();
     const navigate = useNavigate();
@@ -34,6 +35,7 @@ export default function EditEvent() {
         fetchEventDetails();
     }, [id]);
 
+    // @desc    Fetch event details for editing
     const fetchEventDetails = async () => {
         try {
             const { event } = await eventsAPI.getEvent(id);
@@ -89,6 +91,7 @@ export default function EditEvent() {
         }
     };
 
+    // @desc    Handle event update submission
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError('');

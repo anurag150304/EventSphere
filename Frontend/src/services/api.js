@@ -1,17 +1,20 @@
 import axios from 'axios';
 import { API_BASE_URL } from '../config/config';
 
+// @desc    Base API configuration with authentication
 const api = axios.create({
     baseURL: `${API_BASE_URL}/api`,
     withCredentials: true,
     headers: {
         'Content-Type': 'application/json'
-    }
+    },
+    timeout: 10_000
 });
 
-// Create a separate instance for file uploads
+// @desc    Upload API configuration for handling file uploads
 const uploadApi = axios.create({
     baseURL: `${API_BASE_URL}/api`,
+    withCredentials: true,
     headers: {
         'Content-Type': 'multipart/form-data',
     },
@@ -34,7 +37,20 @@ uploadApi.interceptors.request.use((config) => {
     return config;
 });
 
-// Upload API
+// Add response interceptor for error handling
+api.interceptors.response.use(
+    response => response,
+    error => {
+        if (error.response?.status === 502) {
+            console.error('Server is unavailable. Please try again later.');
+        } else if (error.code === 'ERR_NETWORK') {
+            console.error('Network error. Please check your connection.');
+        }
+        return Promise.reject(error);
+    }
+);
+
+// @desc    API service for file upload operations
 export const uploadAPI = {
     uploadImage: async (file) => {
         const formData = new FormData();
@@ -44,12 +60,15 @@ export const uploadAPI = {
     }
 };
 
-// Auth API
+// @desc    API service for authentication related requests
 export const authAPI = {
+    // @desc    Register new user
     register: async (userData) => {
         const response = await api.post('/auth/register', userData);
         return response.data;
     },
+
+    // @desc    Login user with credentials
     login: async (credentials) => {
         const response = await api.post('/auth/login', credentials);
         return response.data;

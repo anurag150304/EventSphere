@@ -6,6 +6,7 @@ import { authAPI } from '../../services/api';
 import { EnvelopeIcon, LockClosedIcon } from '@heroicons/react/24/outline';
 import { toast } from 'react-hot-toast';
 
+// @desc    Login page component with authentication handling
 export default function Login() {
     const [formData, setFormData] = useState({
         email: '',
@@ -22,6 +23,7 @@ export default function Login() {
         });
     };
 
+    // @desc    Handle login form submission
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
@@ -34,6 +36,7 @@ export default function Login() {
         }
     };
 
+    // @desc    Handle guest user login
     const handleGuestLogin = async () => {
         try {
             dispatch(loginStart());

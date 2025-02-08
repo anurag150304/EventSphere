@@ -5,6 +5,7 @@ import { HeartIcon, PencilIcon, TrashIcon } from '@heroicons/react/24/outline';
 import { HeartIcon as HeartSolidIcon } from '@heroicons/react/24/solid';
 import CommentForm from './CommentForm';
 
+// @desc    Individual comment component with reply and like functionality
 export default function Comment({
     comment,
     onReply,
@@ -19,11 +20,13 @@ export default function Comment({
     const isOwner = user?._id === comment.user._id;
     const hasLiked = comment.likes.includes(user?._id);
 
+    // @desc    Handle comment editing and update UI
     const handleEdit = (content) => {
         onEdit(comment._id, content);
         setIsEditing(false);
     };
 
+    // @desc    Handle reply submission and update UI
     const handleReply = (content) => {
         onReply(comment._id, content);
         setIsReplying(false);

@@ -3,10 +3,12 @@ import { Dialog, Transition } from '@headlessui/react';
 import { XMarkIcon, LinkIcon, DocumentDuplicateIcon } from '@heroicons/react/24/outline';
 import { toast } from 'react-hot-toast';
 
+// @desc    Modal component for sharing event details
 export default function ShareModal({ isOpen, onClose, eventId, eventName }) {
     const [copied, setCopied] = useState(false);
     const shareUrl = `${window.location.origin}/events/${eventId}`;
 
+    // @desc    Handle copy link to clipboard
     const handleCopyLink = async () => {
         try {
             await navigator.clipboard.writeText(shareUrl);
@@ -18,6 +20,7 @@ export default function ShareModal({ isOpen, onClose, eventId, eventName }) {
         }
     };
 
+    // @desc    Handle native share functionality
     const handleShare = async () => {
         if (navigator.share) {
             try {

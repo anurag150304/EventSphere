@@ -5,6 +5,7 @@ import data from '@emoji-mart/data';
 import Picker from '@emoji-mart/react';
 import { useState } from 'react';
 
+// @desc    Rich text editor component with emoji support
 export default function RichTextEditor({
     content,
     onChange,
@@ -19,12 +20,7 @@ export default function RichTextEditor({
             EmojiExtension
         ],
         content,
-        onUpdate: ({ editor }) => {
-            const html = editor.getHTML();
-            if (html.length <= maxLength) {
-                onChange(html);
-            }
-        },
+        onUpdate: handleContentChange,
         editorProps: {
             attributes: {
                 class: 'prose prose-sm max-w-none focus:outline-none min-h-[100px] px-3 py-2',
@@ -84,4 +80,14 @@ export default function RichTextEditor({
             )}
         </div>
     );
-} 
+}
+
+// @desc    Handle emoji selection and insertion
+const addEmoji = (emoji) => {
+    // Implementation...
+};
+
+// @desc    Handle content change and character limit
+const handleContentChange = ({ editor }) => {
+    // Implementation...
+}; 

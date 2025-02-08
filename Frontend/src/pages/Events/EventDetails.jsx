@@ -43,6 +43,7 @@ socket.on('connect_error', (error) => {
     console.error('Socket connection error:', error);
 });
 
+// @desc    Page component for displaying detailed event information
 export default function EventDetails() {
     const { id } = useParams();
     const navigate = useNavigate();
@@ -83,6 +84,7 @@ export default function EventDetails() {
         }
     };
 
+    // @desc    Handle RSVP status changes
     const handleRSVP = async () => {
         if (!isAuthenticated) {
             toast.error('Please log in to attend events');
@@ -120,6 +122,7 @@ export default function EventDetails() {
         }
     };
 
+    // @desc    Handle event deletion
     const handleDelete = async () => {
         if (!window.confirm('Are you sure you want to delete this event? This action cannot be undone.')) {
             return;

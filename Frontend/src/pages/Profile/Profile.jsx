@@ -8,6 +8,7 @@ import ImageUpload from '../../components/common/ImageUpload';
 import { toast } from 'react-hot-toast';
 import UpgradePrompt from '../../components/common/UpgradePrompt';
 
+// @desc    User profile page with edit functionality
 export default function Profile() {
     const dispatch = useDispatch();
     const { user, loading, error } = useSelector((state) => state.auth);
@@ -70,6 +71,7 @@ export default function Profile() {
         });
     };
 
+    // @desc    Handle profile image upload
     const handleImageUpload = async (file) => {
         try {
             setUploading(true);
@@ -128,6 +130,7 @@ export default function Profile() {
         }
     };
 
+    // @desc    Handle profile update submission
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (isGuest) {

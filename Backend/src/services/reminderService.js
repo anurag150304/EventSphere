@@ -2,7 +2,7 @@ import cron from 'node-cron';
 import Event from '../models/Event.js';
 import { sendEventReminder } from './emailService.js';
 
-// Function to send reminders for upcoming events based on user preferences
+// @desc    Send reminders for upcoming events based on user preferences
 const sendEventReminders = async () => {
     try {
         // Get current date and time
@@ -58,7 +58,7 @@ const sendEventReminders = async () => {
     }
 };
 
-// Schedule the reminder job to run every 5 minutes
+// @desc    Schedule reminder job to run every 5 minutes
 const scheduleEventReminders = () => {
     cron.schedule('*/5 * * * *', () => {
         console.log('Running event reminder check...');

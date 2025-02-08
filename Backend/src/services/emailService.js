@@ -5,7 +5,7 @@ import User from '../models/User.js';
 
 dotenv.config();
 
-// Create reusable transporter object using SMTP transport
+// @desc    Email service configuration with nodemailer
 const transporter = nodemailer.createTransport({
     host: process.env.SMTP_HOST,
     port: process.env.SMTP_PORT,
@@ -16,7 +16,7 @@ const transporter = nodemailer.createTransport({
     }
 });
 
-// Generate unsubscribe token
+// @desc    Generate unique token for email unsubscribe functionality
 const generateUnsubscribeToken = async (userId) => {
     const token = crypto.randomBytes(32).toString('hex');
     await User.findByIdAndUpdate(userId, { unsubscribeToken: token });
@@ -48,7 +48,7 @@ const getEmailFooter = async (userId) => {
     `;
 };
 
-// Send notification when someone comments on an event
+// @desc    Send email notification for new comments
 export const sendCommentNotification = async (event, comment, recipientEmail) => {
     const user = await User.findById(event.creator);
     if (!user?.notificationPreferences?.eventComments) return;
@@ -79,7 +79,7 @@ export const sendCommentNotification = async (event, comment, recipientEmail) =>
     await transporter.sendMail(mailOptions);
 };
 
-// Send notification when someone replies to a comment
+// @desc    Send email notification for comment replies
 export const sendReplyNotification = async (event, reply, parentComment, recipientEmail) => {
     const user = await User.findById(parentComment.user);
     if (!user?.notificationPreferences?.commentReplies) return;
@@ -114,7 +114,7 @@ export const sendReplyNotification = async (event, reply, parentComment, recipie
     await transporter.sendMail(mailOptions);
 };
 
-// Send notification when an event is updated
+// @desc    Send email notification for event updates
 export const sendEventUpdateNotification = async (event, changes, recipientId) => {
     const user = await User.findById(recipientId);
     if (!user?.notificationPreferences?.eventUpdates) return;
@@ -147,7 +147,7 @@ export const sendEventUpdateNotification = async (event, changes, recipientId) =
     await transporter.sendMail(mailOptions);
 };
 
-// Send event reminder
+// @desc    Send email reminder for upcoming events
 export const sendEventReminder = async (event, recipientId) => {
     const user = await User.findById(recipientId);
     if (!user?.notificationPreferences?.eventReminders) return;
@@ -180,7 +180,7 @@ export const sendEventReminder = async (event, recipientId) => {
     await transporter.sendMail(mailOptions);
 };
 
-// Send RSVP update notification
+// @desc    Send email notification for RSVP status changes
 export const sendRSVPUpdateNotification = async (event, user, status) => {
     const eventCreator = await User.findById(event.creator);
     if (!eventCreator?.notificationPreferences?.rsvpUpdates) return;

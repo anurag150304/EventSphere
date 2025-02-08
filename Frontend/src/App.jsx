@@ -16,6 +16,7 @@ import NotificationHistory from './pages/Notifications/NotificationHistory';
 import store from './store';
 import { UserProvider } from './context/UserContext';
 
+// @desc    Root component with route configuration and global providers
 function App() {
   return (
     <Provider store={store}>

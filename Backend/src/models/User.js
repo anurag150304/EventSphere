@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 import bcrypt from 'bcryptjs';
 
+// @desc    User model schema definition with authentication methods
 const userSchema = new mongoose.Schema({
     name: {
         type: String,

@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { ArrowUpCircleIcon } from '@heroicons/react/24/outline';
 
+// @desc    Component to prompt guest users to upgrade their account
 export default function UpgradePrompt({ message, className = '' }) {
     return (
         <div className={`rounded-md bg-purple-50 p-4 ${className}`}>

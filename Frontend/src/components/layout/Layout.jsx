@@ -18,7 +18,8 @@ function classNames(...classes) {
     return classes.filter(Boolean).join(' ');
 }
 
-const Layout = ({ children }) => {
+// @desc    Main layout component with navigation and responsive design
+export default function Layout({ children }) {
     const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
     const { user, isAuthenticated } = useSelector((state) => state.auth);
     const location = useLocation();
@@ -35,6 +36,7 @@ const Layout = ({ children }) => {
         return () => window.removeEventListener('resize', handleResize);
     }, []);
 
+    // @desc    Handle user logout
     const handleLogout = () => {
         dispatch(logout());
         navigate('/login');
@@ -266,6 +268,4 @@ const Layout = ({ children }) => {
             </main>
         </div>
     );
-};
-
-export default Layout; 
+} 

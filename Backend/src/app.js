@@ -28,39 +28,40 @@ if (!fs.existsSync(uploadsDir)) {
 // Load environment variables
 dotenv.config();
 
-// Create Express app
+// @desc    Express app configuration with Socket.IO and middleware setup
 const app = express();
 const httpServer = createServer(app);
 
-// Update allowed origins to include both development and production URLs
-const allowedOrigins = [
-    "http://localhost:5173",
-    "https://event-sphere-phi.vercel.app"
-];
+// @desc    CORS configuration for allowed origins
+const allowedOrigins = "*";
 
-// Socket.io setup with updated CORS configuration
-const io = new Server(httpServer, {
-    cors: {
-        origin: allowedOrigins,
-        methods: ["GET", "POST", "PUT", "DELETE"],
-        allowedHeaders: ["Content-Type", "Authorization"],
-        credentials: true
-    },
-    transports: ['websocket', 'polling']
-});
-
-// Express CORS middleware with updated configuration
-app.use(cors({
-    origin: allowedOrigins,
-    methods: ["GET", "POST", "PUT", "DELETE"],
-    allowedHeaders: ["Content-Type", "Authorization"],
-    credentials: true
-}));
-
-// Middleware
+// Configure express middleware first
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ limit: '50mb', extended: true }));
 app.use(morgan('dev'));
+
+// CORS middleware with proper configuration
+app.use(cors({
+    origin: allowedOrigins,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    credentials: true,
+    preflightContinue: false,
+    optionsSuccessStatus: 204
+}));
+
+// Socket.IO server configuration
+const io = new Server(httpServer, {
+    path: '/socket.io',
+    cors: {
+        origin: allowedOrigins,
+        methods: ['GET', 'POST', 'PUT', 'DELETE'],
+        allowedHeaders: ['Content-Type', 'Authorization'],
+        credentials: true
+    },
+    transports: ['websocket', 'polling'],
+    allowEIO3: true
+});
 
 // Serve uploaded files
 app.use('/uploads', express.static(path.join(__dirname, '../uploads')));

@@ -1,18 +1,21 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { format, parseISO, isPast, isFuture } from 'date-fns';
-import { CalendarDaysIcon, MapPinIcon, UsersIcon } from '@heroicons/react/24/outline';
+import { CalendarDaysIcon, MapPinIcon, UsersIcon, FunnelIcon } from '@heroicons/react/24/outline';
 import { eventsAPI } from '../../services/api';
+import FilterDrawer from './FilterDrawer';
 
 const categories = ['all', 'conference', 'workshop', 'social', 'sports', 'other'];
 
+// @desc    Component to display and filter list of events
 export default function EventList() {
     const [events, setEvents] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [isFilterOpen, setIsFilterOpen] = useState(false);
     const [filters, setFilters] = useState({
         category: 'all',
-        timeFrame: 'upcoming',
+        timeFrame: 'all',
         startDate: '',
         endDate: ''
     });
@@ -21,6 +24,7 @@ export default function EventList() {
         fetchEvents();
     }, [filters]);
 
+    // @desc    Fetch events based on current filters
     const fetchEvents = async () => {
         try {
             setLoading(true);
@@ -40,6 +44,7 @@ export default function EventList() {
         }
     };
 
+    // @desc    Handle event filtering based on category and date
     const handleFilterChange = (name, value) => {
         setFilters(prev => ({
             ...prev,
@@ -47,22 +52,28 @@ export default function EventList() {
         }));
     };
 
-    const filteredEvents = events.filter(event => {
-        const eventDate = parseISO(event.date);
+    // @desc    Apply filters to event list
+    const applyFilters = (events) => {
+        const filteredEvents = events.filter(event => {
+            const eventDate = parseISO(event.date);
 
-        // Time Frame Filter
-        const matchesTimeFrame = filters.timeFrame === 'all' ||
-            (filters.timeFrame === 'upcoming' && isFuture(eventDate)) ||
-            (filters.timeFrame === 'past' && isPast(eventDate));
+            // Time Frame Filter
+            const matchesTimeFrame = filters.timeFrame === 'all' ||
+                (filters.timeFrame === 'upcoming' && isFuture(eventDate)) ||
+                (filters.timeFrame === 'past' && isPast(eventDate));
 
-        // Date Range Filter
-        const startDate = filters.startDate ? parseISO(filters.startDate) : null;
-        const endDate = filters.endDate ? parseISO(filters.endDate) : null;
-        const matchesDateRange = (!startDate || eventDate >= startDate) &&
-            (!endDate || eventDate <= endDate);
+            // Date Range Filter
+            const startDate = filters.startDate ? parseISO(filters.startDate) : null;
+            const endDate = filters.endDate ? parseISO(filters.endDate) : null;
+            const matchesDateRange = (!startDate || eventDate >= startDate) &&
+                (!endDate || eventDate <= endDate);
 
-        return matchesTimeFrame && matchesDateRange;
-    });
+            return matchesTimeFrame && matchesDateRange;
+        });
+        return filteredEvents;
+    };
+
+    const filteredEvents = applyFilters(events);
 
     if (loading) {
         return (
@@ -81,65 +92,61 @@ export default function EventList() {
     }
 
     return (
-        <div className="space-y-6">
-            {/* Filters */}
-            <div className="bg-white p-4 rounded-lg shadow-sm space-y-4">
-                <h2 className="text-lg font-semibold text-gray-900">Filters</h2>
-                <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                    {/* Category Filter */}
-                    <div>
-                        <label className="block text-sm font-medium text-gray-700">Category</label>
-                        <select
-                            value={filters.category}
-                            onChange={(e) => handleFilterChange('category', e.target.value)}
-                            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500"
-                        >
-                            {categories.map(category => (
-                                <option key={category} value={category}>
-                                    {category === 'all' ? 'All Categories' : category.charAt(0).toUpperCase() + category.slice(1)}
-                                </option>
-                            ))}
-                        </select>
-                    </div>
-
-                    {/* Time Frame Filter */}
-                    <div>
-                        <label className="block text-sm font-medium text-gray-700">Time Frame</label>
-                        <select
-                            value={filters.timeFrame}
-                            onChange={(e) => handleFilterChange('timeFrame', e.target.value)}
-                            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500"
-                        >
-                            <option value="all">All Events</option>
-                            <option value="upcoming">Upcoming Events</option>
-                            <option value="past">Past Events</option>
-                        </select>
-                    </div>
-
-                    {/* Date Range Filters */}
-                    <div>
-                        <label className="block text-sm font-medium text-gray-700">Start Date</label>
-                        <input
-                            type="date"
-                            value={filters.startDate}
-                            onChange={(e) => handleFilterChange('startDate', e.target.value)}
-                            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500"
-                        />
-                    </div>
-                    <div>
-                        <label className="block text-sm font-medium text-gray-700">End Date</label>
-                        <input
-                            type="date"
-                            value={filters.endDate}
-                            onChange={(e) => handleFilterChange('endDate', e.target.value)}
-                            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500"
-                        />
-                    </div>
-                </div>
+        <div className="space-y-6 relative">
+            {/* Filter Button - Fixed on right side */}
+            <div className="absolute right-0 top-0 z-10">
+                <button
+                    onClick={() => setIsFilterOpen(true)}
+                    className="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500"
+                >
+                    <FunnelIcon className="h-5 w-5 mr-2" />
+                    Filter
+                </button>
             </div>
 
+            {/* Active Filters Display - Below the events header */}
+            {(filters.category !== 'all' ||
+                filters.timeFrame !== 'all' ||
+                filters.startDate ||
+                filters.endDate) && (
+                    <div className="mt-16 flex gap-2 flex-wrap">
+                        {filters.category !== 'all' && (
+                            <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-purple-100 text-purple-800">
+                                {filters.category.charAt(0).toUpperCase() + filters.category.slice(1)}
+                            </span>
+                        )}
+                        {filters.timeFrame !== 'all' && (
+                            <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-800">
+                                {filters.timeFrame.charAt(0).toUpperCase() + filters.timeFrame.slice(1)}
+                            </span>
+                        )}
+                        {filters.startDate && (
+                            <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800">
+                                From: {format(parseISO(filters.startDate), 'MMM d, yyyy')}
+                            </span>
+                        )}
+                        {filters.endDate && (
+                            <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800">
+                                To: {format(parseISO(filters.endDate), 'MMM d, yyyy')}
+                            </span>
+                        )}
+                    </div>
+                )}
+
+            {/* Filter Drawer */}
+            <FilterDrawer
+                isOpen={isFilterOpen}
+                onClose={() => setIsFilterOpen(false)}
+                filters={filters}
+                onFilterChange={handleFilterChange}
+            />
+
             {/* Events List */}
-            {filteredEvents.length === 0 ? (
+            {loading ? (
+                <div className="flex justify-center items-center min-h-[400px]">
+                    <div className="animate-spin rounded-full h-12 w-12 border-4 border-purple-500 border-t-transparent" />
+                </div>
+            ) : filteredEvents.length === 0 ? (
                 <div className="text-center py-12 bg-white rounded-lg shadow-sm">
                     <p className="text-gray-500">No events found matching your filters</p>
                 </div>

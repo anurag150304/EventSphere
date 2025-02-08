@@ -8,14 +8,17 @@ const initialState = {
     error: null,
 };
 
+// @desc    Redux slice for managing authentication state
 const authSlice = createSlice({
     name: 'auth',
     initialState,
     reducers: {
+        // @desc    Start login process
         loginStart: (state) => {
             state.loading = true;
             state.error = null;
         },
+        // @desc    Handle successful login
         loginSuccess: (state, action) => {
             state.loading = false;
             state.isAuthenticated = true;
@@ -23,6 +26,7 @@ const authSlice = createSlice({
             state.token = action.payload.token;
             localStorage.setItem('token', action.payload.token);
         },
+        // @desc    Handle login failure
         loginFailure: (state, action) => {
             state.loading = false;
             state.error = action.payload;

@@ -1,6 +1,7 @@
 import { useState, useRef } from 'react';
 import { CloudArrowUpIcon } from '@heroicons/react/24/outline';
 
+// @desc    Reusable image upload component with drag and drop support
 export default function ImageUpload({ onUpload, onError }) {
     const [isDragging, setIsDragging] = useState(false);
     const [isUploading, setIsUploading] = useState(false);
@@ -23,6 +24,7 @@ export default function ImageUpload({ onUpload, onError }) {
         e.stopPropagation();
     };
 
+    // @desc    Handle drag and drop events
     const handleDrop = async (e) => {
         e.preventDefault();
         e.stopPropagation();
@@ -41,6 +43,7 @@ export default function ImageUpload({ onUpload, onError }) {
         }
     };
 
+    // @desc    Handle file upload and validation
     const handleFileUpload = async (file) => {
         if (!file.type.startsWith('image/')) {
             onError('Please upload an image file');

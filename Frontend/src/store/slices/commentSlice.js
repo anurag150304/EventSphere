@@ -1,24 +1,27 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-const initialState = {
-    comments: [],
-    loading: false,
-    error: null,
-};
-
+// @desc    Redux slice for managing comments state
 const commentSlice = createSlice({
     name: 'comments',
-    initialState,
+    initialState: {
+        comments: [],
+        loading: false,
+        error: null
+    },
     reducers: {
-        // Fetch comments
+        // @desc    Start comments fetch operation
         fetchCommentsStart: (state) => {
             state.loading = true;
             state.error = null;
         },
+
+        // @desc    Handle successful comments fetch
         fetchCommentsSuccess: (state, action) => {
             state.loading = false;
             state.comments = action.payload;
         },
+
+        // @desc    Handle comments fetch failure
         fetchCommentsFailure: (state, action) => {
             state.loading = false;
             state.error = action.payload;

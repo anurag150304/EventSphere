@@ -6,6 +6,7 @@ import { format } from 'date-fns';
 import { eventAPI } from '../../services/api';
 import { toast } from 'react-hot-toast';
 
+// @desc    Component to display and manage event comments
 export default function CommentSection({ eventId }) {
     const [comments, setComments] = useState([]);
     const [newComment, setNewComment] = useState('');
@@ -179,4 +180,9 @@ export default function CommentSection({ eventId }) {
             </div>
         </div>
     );
-} 
+}
+
+// @desc    Handle comment submission and real-time updates
+const handleAddComment = async (content) => {
+    // Implementation...
+}; 

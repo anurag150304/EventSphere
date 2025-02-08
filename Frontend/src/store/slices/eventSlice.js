@@ -11,6 +11,7 @@ const initialState = {
     },
 };
 
+// @desc    Redux slice for managing events state
 const eventSlice = createSlice({
     name: 'events',
     initialState,
@@ -29,11 +30,12 @@ const eventSlice = createSlice({
             state.error = action.payload;
         },
 
-        // Fetch single event
+        // @desc    Start event fetch operation
         fetchEventStart: (state) => {
             state.loading = true;
             state.error = null;
         },
+        // @desc    Handle successful event fetch
         fetchEventSuccess: (state, action) => {
             state.loading = false;
             state.event = action.payload;

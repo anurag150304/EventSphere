@@ -5,6 +5,7 @@ import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline';
 import { eventsAPI } from '../../services/api';
 import { Link } from 'react-router-dom';
 
+// @desc    Calendar view of events with filtering options
 export default function Calendar() {
     const [currentMonth, setCurrentMonth] = useState(new Date());
     const [events, setEvents] = useState([]);
@@ -48,6 +49,16 @@ export default function Calendar() {
 
     const getEventsForDay = (day) => {
         return events.filter(event => isSameDay(new Date(event.date), day));
+    };
+
+    // @desc    Handle event click in calendar
+    const handleEventClick = (eventId) => {
+        // Implementation...
+    };
+
+    // @desc    Filter events by date range
+    const filterEvents = (start, end) => {
+        // Implementation...
     };
 
     return (

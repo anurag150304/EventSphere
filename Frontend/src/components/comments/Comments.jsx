@@ -28,15 +28,16 @@ import UpgradePrompt from '../common/UpgradePrompt';
 import { toast } from 'react-hot-toast';
 import { API_BASE_URL } from '../../config/config';
 
-// Update Socket.IO configuration
+// @desc    Socket.IO client configuration for real-time comments
 const socket = io(API_BASE_URL, {
     path: '/socket.io',
     withCredentials: true,
-    transports: ['websocket', 'polling'],
+    transports: ['polling', 'websocket'],
     autoConnect: true,
     reconnection: true,
-    reconnectionAttempts: 5,
-    reconnectionDelay: 1000
+    reconnectionAttempts: 3,
+    reconnectionDelay: 1000,
+    timeout: 20000
 });
 
 // Handle socket connection errors

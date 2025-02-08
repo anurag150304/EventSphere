@@ -15,7 +15,8 @@ import {
 import { toast } from 'react-hot-toast';
 import UpgradePrompt from '../../components/common/UpgradePrompt';
 
-const NotificationHistory = () => {
+// @desc    Page component for displaying user notifications
+export default function NotificationHistory() {
     const dispatch = useDispatch();
     const { notifications, loading, error, pagination } = useSelector((state) => state.notifications);
     const { user } = useSelector((state) => state.auth);
@@ -37,6 +38,7 @@ const NotificationHistory = () => {
         }
     };
 
+    // @desc    Mark notification as read
     const handleMarkAsRead = async (id) => {
         try {
             const notification = await notificationsAPI.markAsRead(id);
@@ -57,6 +59,7 @@ const NotificationHistory = () => {
         }
     };
 
+    // @desc    Delete notification
     const handleDelete = async (id) => {
         try {
             await notificationsAPI.deleteNotification(id);
@@ -200,6 +203,4 @@ const NotificationHistory = () => {
             </div>
         </div>
     );
-};
-
-export default NotificationHistory; 
+} 

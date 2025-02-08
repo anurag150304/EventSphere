@@ -5,6 +5,7 @@ import { loginSuccess, logout } from '../store/slices/authSlice';
 
 const UserContext = createContext(null);
 
+// @desc    Context provider for managing user authentication state
 export const UserProvider = ({ children }) => {
     const [loading, setLoading] = useState(true);
     const dispatch = useDispatch();
@@ -52,6 +53,7 @@ export const UserProvider = ({ children }) => {
     return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
 };
 
+// @desc    Custom hook for accessing user context
 export const useUser = () => {
     const context = useContext(UserContext);
     if (context === null) {

@@ -6,6 +6,7 @@ import { fetchEventsSuccess } from '../../store/slices/eventSlice';
 import { toast } from 'react-hot-toast';
 import EventForm from '../../components/event/EventForm';
 
+// @desc    Page component for creating new events
 export default function CreateEvent() {
     const { user } = useSelector((state) => state.auth);
     const navigate = useNavigate();
@@ -23,6 +24,7 @@ export default function CreateEvent() {
         return null;
     }
 
+    // @desc    Handle event creation submission
     const handleSubmit = async (formData) => {
         try {
             await eventsAPI.createEvent(formData);
@@ -36,8 +38,8 @@ export default function CreateEvent() {
     };
 
     return (
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-            <h1 className="text-2xl font-bold text-gray-900 mb-6">Create Event</h1>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <h1 className="text-3xl font-bold text-gray-900 mb-8">Create New Event</h1>
             <EventForm onSubmit={handleSubmit} />
         </div>
     );
