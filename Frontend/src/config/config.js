@@ -1,1 +1,1 @@
-export const API_BASE_URL = 'https://eventsphere-backend-unq3.onrender.com'; 
+export const API_BASE_URL = 'https://eventsphere-backend-xn7z.onrender.com'; 
