@@ -26,9 +26,10 @@ import CommentForm from './CommentForm';
 import Comment from './Comment';
 import UpgradePrompt from '../common/UpgradePrompt';
 import { toast } from 'react-hot-toast';
+import { API_BASE_URL } from '../../config/config';
 
-// Configure Socket.IO client
-const socket = io('http://localhost:5000', {
+// Update Socket.IO configuration
+const socket = io(API_BASE_URL, {
     withCredentials: true,
     transports: ['websocket', 'polling'],
     autoConnect: true,

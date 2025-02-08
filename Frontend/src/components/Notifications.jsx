@@ -1,5 +1,7 @@
+import { API_BASE_URL } from '../config/config';
+
 // Configure Socket.IO client
-const socket = io('http://localhost:5000', {
+const socket = io(API_BASE_URL, {
     withCredentials: true,
     transports: ['websocket', 'polling'],
     autoConnect: true,

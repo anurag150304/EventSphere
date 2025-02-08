@@ -1,18 +1,17 @@
 import axios from 'axios';
+import { API_BASE_URL } from '../config/config';
 
-const API_URL = 'http://localhost:5000/api';
-
-// Create axios instance with default config
 const api = axios.create({
-    baseURL: API_URL,
+    baseURL: API_BASE_URL,
+    withCredentials: true,
     headers: {
-        'Content-Type': 'application/json',
-    },
+        'Content-Type': 'application/json'
+    }
 });
 
 // Create a separate instance for file uploads
 const uploadApi = axios.create({
-    baseURL: API_URL,
+    baseURL: API_BASE_URL,
     headers: {
         'Content-Type': 'multipart/form-data',
     },
