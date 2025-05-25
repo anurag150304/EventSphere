@@ -27,7 +27,7 @@ connectDB();
 
 // Configure express middlewares
 app.use(cors({
-    origin: ["http://localhost:5173", "https://event-sphere-phi.vercel.app"],
+    origin: [process.env.LOCAL_URL, process.env.FRONTEND_URL],
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true
