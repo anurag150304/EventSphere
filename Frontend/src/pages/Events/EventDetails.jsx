@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { format, parseISO } from 'date-fns';
-import { API_BASE_URL } from '../../config/config';
 import {
     ClockIcon,
     MapPinIcon,
@@ -30,7 +29,7 @@ import { toast } from 'react-hot-toast';
 import UpgradePrompt from '../../components/common/UpgradePrompt';
 
 // Configure Socket.IO client
-const socket = io(API_BASE_URL, {
+const socket = io(import.meta.env.VITE_BASE_URL, {
     withCredentials: true,
     transports: ['websocket', 'polling'],
     autoConnect: true,

@@ -1,9 +1,8 @@
 import axios from 'axios';
-import { API_BASE_URL } from '../config/config';
 
 // @desc    Base API configuration with authentication
 const api = axios.create({
-    baseURL: `${API_BASE_URL}/api`,
+    baseURL: `${import.meta.env.VITE_BASE_URL}/api`,
     withCredentials: true,
     headers: {
         'Content-Type': 'application/json'
@@ -12,7 +11,7 @@ const api = axios.create({
 
 // @desc    Upload API configuration for handling file uploads
 const uploadApi = axios.create({
-    baseURL: `${API_BASE_URL}/api`,
+    baseURL: `${import.meta.env.VITE_BASE_URL}/api`,
     withCredentials: true,
     headers: {
         'Content-Type': 'multipart/form-data',

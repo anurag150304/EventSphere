@@ -26,10 +26,9 @@ import CommentForm from './CommentForm';
 import Comment from './Comment';
 import UpgradePrompt from '../common/UpgradePrompt';
 import { toast } from 'react-hot-toast';
-import { API_BASE_URL } from '../../config/config';
 
 // @desc    Socket.IO client configuration for real-time comments
-const socket = io(API_BASE_URL, {
+const socket = io(import.meta.env.VITE_BASE_URL, {
     path: '/socket.io',
     withCredentials: true,
     transports: ['polling', 'websocket'],

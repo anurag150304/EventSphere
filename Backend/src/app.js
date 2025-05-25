@@ -27,7 +27,7 @@ connectDB();
 
 // Configure express middlewares
 app.use(cors({
-    origin: [process.env.LOCAL_URL, process.env.FRONTEND_URL],
+    origin: process.env.FRONTEND_URL,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true
