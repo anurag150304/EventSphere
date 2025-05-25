@@ -1,6 +1,6 @@
 import Comment from '../models/Comment.js';
 import Event from '../models/Event.js';
-import { io } from '../app.js';
+import { io } from '../socket.js';
 import { sendCommentNotification, sendReplyNotification } from '../services/emailService.js';
 
 // @desc    Get comments for an event
